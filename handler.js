@@ -32,6 +32,7 @@ module.exports.feedback = (event, context, callback) => {
     [
       s4(),
       new Date().toISOString(),
+      event.queryStringParameters.page,
       event.queryStringParameters.name,
       event.queryStringParameters.email,
       event.queryStringParameters.message,
@@ -46,6 +47,6 @@ module.exports.feedback = (event, context, callback) => {
     }),
   };
 
-  writeSheet('Feedbacks!A:E', newValues);
+  writeSheet('Feedbacks!A:F', newValues);
   callback(null, response);
 };
