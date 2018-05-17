@@ -22,6 +22,30 @@ module.exports.subscribe = (event, context, callback) => {
     }),
   };
 
-  writeSheet(newValues);
+  writeSheet('Subscribtions!A:C', newValues);
+  callback(null, response);
+};
+
+module.exports.feedback = (event, context, callback) => {
+
+  const newValues = [
+    [
+      s4(),
+      new Date().toISOString(),
+      event.queryStringParameters.name,
+      event.queryStringParameters.email,
+      event.queryStringParameters.message,
+    ]
+  ]
+
+  const response = {
+    statusCode: 200,
+    body: JSON.stringify({
+      message: 'Write!',
+      input: event,
+    }),
+  };
+
+  writeSheet('Feedbacks!A:E', newValues);
   callback(null, response);
 };

@@ -7,10 +7,10 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 const TOKEN_PATH = 'credentials.json';
 
 // Load client secrets from a local file.
-const writeSheet = (values) => fs.readFile('client_secret.json', (err, content) => {
+const writeSheet = (range, values) => fs.readFile('client_secret.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
   // Authorize a client with credentials, then call the Google Sheets API.
-  authorize(JSON.parse(content), auth => listMajors(auth, values));
+  authorize(JSON.parse(content), auth => listMajors(auth, range, values));
 });
 
 /**
@@ -68,11 +68,11 @@ function getNewToken(oAuth2Client, callback) {
  * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
-function listMajors(auth, values) {
+function listMajors(auth, range, values) {
   const sheets = google.sheets({version: 'v4', auth});
   sheets.spreadsheets.values.append({
     spreadsheetId: '1W31hzqoG4L87TjbdpXV8oOVmT6yDYWf08FJ4QGFOgeo',
-    range: 'Subscribtions!A:C',
+    range: range,
     includeValuesInResponse: true,
     insertDataOption: 'INSERT_ROWS',
     valueInputOption: 'USER_ENTERED',
